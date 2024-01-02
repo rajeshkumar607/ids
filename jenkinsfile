@@ -1,0 +1,28 @@
+import pandas as pd
+from sqlalchemy import create_engine
+
+# Replace 'your_csv_file.csv' with the actual name of your CSV file
+csv_file = 'Attributes.csv'
+
+# Replace 'your_table_name' with the desired name for the table
+table_name = ''yor_attributes
+
+# MySQL database connection parameters
+db_params = {
+    'user': 'root',
+    'password': 'Chill@123#',
+    'host': '127.0.0.1',
+    'port': 3308,
+    'database': 'yorlab',
+}
+
+# Create a MySQL database engine
+engine = create_engine(f"mysql+pymysql://{db_params['user']}:{db_params['password']}@{db_params['host']}:{db_params['port']}/{db_params['database']}")
+
+# Read CSV file into a pandas DataFrame
+df = pd.read_csv(csv_file)
+
+# Write the DataFrame to the MySQL database table
+df.to_sql(table_name, engine, index=False, if_exists='replace')
+
+print(f"CSV data has been imported into the MySQL table '{table_name}' successfully.")
