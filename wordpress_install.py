@@ -56,7 +56,7 @@ def ngninx_config(input_file, output_file, old_word, new_word):
         subprocess.run(command, shell=True)
         command = f"sed -e '4s/www/{site_name}/' -i -e '23s/www-data/{site_name}/' -e '36s/php8.0-fpm/php8.0-fpm_{site_name}/' /etc/php/8.0/fpm/pool.d/{site_name}.conf "
         # testing php-fpm and restart 
-        subprocess.run(["service", "php8.0-fpm", "restart"]) 
+        subprocess.run(["systemctl", "restart", "php8.-fpm"]) 
         subprocess.run(command, shell=True)
     except FileNotFoundError:
         print(f"Error: File '{input_file}' not found.")
