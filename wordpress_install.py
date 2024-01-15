@@ -95,5 +95,5 @@ if __name__ == "__main__":
      install_wordpress(wordpress_version, install_path)
      create_database(site_name, site_name, user_password)
      ngninx_config(input_file_path, output_file_path, old_word_to_replace, new_word)
-     
+     print (user_password)
      print("Wordpress installation completed.")
