@@ -1,5 +1,6 @@
 server {
 
+            listen 80;
             root /var/www/html/domain.dev.idslogic.net/wordpress;
             index index.php index.html;
             server_name domain.dev.idslogic.net;
