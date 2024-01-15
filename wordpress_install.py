@@ -52,10 +52,18 @@ def ngninx_config(input_file, output_file, old_word, new_word):
         print(f"Modified content written to {output_file}")
         command = f'cd /etc/nginx/sites-enabled && ln -sf ../sites-available/{site_name}.conf && nginx -t'
         subprocess.run(command, shell=True)
+        command = f'cp /etc/php/8.0/fpm/pool.d/www.conf /etc/php/8.0/fpm/pool.d/{site_name}.conf'
+        subprocess.run(command, shell=True)
+        command = f"sed -e '4s/www/{site_name}/' -i -e '23s/www-data/{site_name}/' -e '36s/php8.0-fpm/php8.0-fpm_{site_name}/' /etc/php/8.0/fpm/pool.d/{site_name}.conf "
+        # testing php-fpm and restart 
+        subprocess.run(["service", "php8.0-fpm", "restart"]) 
+        subprocess.run(command, shell=True)
     except FileNotFoundError:
         print(f"Error: File '{input_file}' not found.")
     except Exception as e:
         print(f"An error occurred: {e}")
+
+
 
 
 # Example usage
