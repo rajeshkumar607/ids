@@ -128,10 +128,10 @@ if __name__ == "__main__":
      
 
 #    Run the installation
-    #  create_user(site_name, home_path, user_password)
-    #  install_wordpress(wordpress_version, install_path)
-    #  create_database(site_name, site_name, user_password)
-    #  ngninx_config(input_file_path, output_file_path, old_word_to_replace, new_word)
+     create_user(site_name, home_path, user_password)
+     install_wordpress(wordpress_version, install_path)
+     create_database(site_name, site_name, user_password)
+     ngninx_config(input_file_path, output_file_path, old_word_to_replace, new_word)
      proxy_nginx_config(hostname, port, username, password, commandtorun1, commandtorun2, output_file_path_certbot)
      print (user_password)
      print("Wordpress installation completed.")
