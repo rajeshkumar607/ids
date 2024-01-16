@@ -2,7 +2,9 @@ import subprocess
 import os
 import string
 import secrets
+import paramiko
 # Generate Password For user
+
 def generate_random_string(length):
     characters = string.ascii_letters + string.digits + string.punctuation
     random_string = ''.join(secrets.choice(characters) for _ in range(length))
@@ -64,6 +66,42 @@ def ngninx_config(input_file, output_file, old_word, new_word):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+import paramiko
+
+def proxy_nginx_config(hostname, port, username, password, command):
+    try:
+        # Create an SSH client
+        ssh_client = paramiko.SSHClient()
+
+        # Automatically add the server's host key
+        ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+        # Connect to the SSH server
+        ssh_client.connect(hostname, port=port, username=username, password=password)
+
+        # Run the specified command
+        stdin, stdout, stderr = f'sh_client.exec_command(cd {proxy_nginx_config_path} && cp ahead.conf {site_name} &&)'
+
+        # Print the command output
+        print("Command Output:")
+        print(stdout.read().decode('utf-8'))
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+    finally:
+        # Close the SSH connection
+        ssh_client.close()
+
+# Example usage
+hostname = "192.168.0.252"
+username = "root"
+password = "R@mR@jinIDS"
+command_to_run = "ls -l"  # Replace with your desired command
+
+
+
+
 
 
 
@@ -92,9 +130,10 @@ if __name__ == "__main__":
      
 
 #    Run the installation
-     create_user(site_name, home_path, user_password)
-     install_wordpress(wordpress_version, install_path)
-     create_database(site_name, site_name, user_password)
-     ngninx_config(input_file_path, output_file_path, old_word_to_replace, new_word)
+    #  create_user(site_name, home_path, user_password)
+    #  install_wordpress(wordpress_version, install_path)
+    #  create_database(site_name, site_name, user_password)
+    #  ngninx_config(input_file_path, output_file_path, old_word_to_replace, new_word)
+    #  proxy_nginx_config(hostname, username, password, command_to_run)
      print (user_password)
      print("Wordpress installation completed.")
