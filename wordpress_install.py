@@ -4,7 +4,6 @@ import string
 import secrets
 import paramiko
 # Generate Password For user
-
 def generate_random_string(length):
     characters = string.ascii_letters + string.digits + string.punctuation
     random_string = ''.join(secrets.choice(characters) for _ in range(length))
@@ -68,7 +67,7 @@ def ngninx_config(input_file, output_file, old_word, new_word):
 
 import paramiko
 
-def proxy_nginx_config(hostname, port, username, password, command):
+def proxy_nginx_config(hostname, port, username, password, command1, command2, output_file_path):
     try:
         # Create an SSH client
         ssh_client = paramiko.SSHClient()
@@ -80,11 +79,21 @@ def proxy_nginx_config(hostname, port, username, password, command):
         ssh_client.connect(hostname, port=port, username=username, password=password)
 
         # Run the specified command
-        stdin, stdout, stderr = f'sh_client.exec_command(cd {proxy_nginx_config_path} && cp ahead.conf {site_name} &&)'
+        stdin1, stdout1, stderr1 = ssh_client.exec_command(command1)
+        stdin2, stdout2, stderr2 = ssh_client.exec_command(command2)
 
         # Print the command output
-        print("Command Output:")
-        print(stdout.read().decode('utf-8'))
+        print("Command Output For 1st command:")
+        for line in stdout1:
+            print(line.strip())
+        for line in stdout2:
+            command_output = line.strip()
+            if command_output:
+                return command_output
+        with open(output_file_path, 'w') as local_file:
+            local_file.write(command_output)
+
+        print(f"Command output saved to: {output_file_path}")
 
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -93,24 +102,6 @@ def proxy_nginx_config(hostname, port, username, password, command):
         # Close the SSH connection
         ssh_client.close()
 
-# Example usage
-hostname = "192.168.0.252"
-username = "root"
-password = "R@mR@jinIDS"
-command_to_run = "ls -l"  # Replace with your desired command
-
-
-
-
-
-
-
-# Example usage
-
-
-
-
-     
 
 if __name__ == "__main__":
      domain = input("Please Enter The Domain Name")
@@ -127,6 +118,13 @@ if __name__ == "__main__":
      print(output_file_path)
      old_word_to_replace = 'domain'
      new_word = f"{site_name}"
+     hostname = "192.168.0.252"
+     port = "15126"
+     username = "root"
+     password = "R@mR@jinIDS"
+     commandtorun1 = f" bash /root/ids-scripts/nginx-config.bash {domain} 192.168.0.229 "
+     commandtorun2 = "cat /root/ids-scripts/certbot.conf"
+     output_file_path_certbot = 'certbot.conf'
      
 
 #    Run the installation
@@ -134,6 +132,6 @@ if __name__ == "__main__":
     #  install_wordpress(wordpress_version, install_path)
     #  create_database(site_name, site_name, user_password)
     #  ngninx_config(input_file_path, output_file_path, old_word_to_replace, new_word)
-    #  proxy_nginx_config(hostname, username, password, command_to_run)
+     proxy_nginx_config(hostname, port, username, password, commandtorun1, commandtorun2, output_file_path_certbot)
      print (user_password)
      print("Wordpress installation completed.")
